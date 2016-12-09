@@ -1,6 +1,6 @@
 'use strict';
 var alexaSDK = require('alexa-sdk');
-
+var request = require('request');
 
 const
     REPROMPT = 'For assistance just say \'Help Me\'.',
@@ -12,19 +12,56 @@ exports.handler = function(event, context){
     alexa.execute();
 };
 
+
 var handlers = {
     'LaunchRequest': function () {
         this.emit(':ask', 'Welcome to ' + SKILL + '. How can I help?', REPROMPT);
     },
-    'GiffGafferIntent': function () {
-        this.emit(':ask', 'tell me your name');
+    'CurrentOrderIntent': function () {
+
+
+        var that = this;
+
+        var options = {
+            method: 'POST',
+            url: 'http://gopospro.com:3030/orders/pending',
+            headers: {
+                'auth_email': 'qawsedstation@gmail.com',
+                'auth_password' : 'qawsed'
+            },
+
+        };
+
+        function callback(error, response, body) {
+
+
+            if (!error && response.statusCode == 200) {
+                var info = JSON.parse(body);
+                var orderNumber = info.data.length;
+
+                if(orderNumber) {
+                    var orders = '';
+
+                    for(var i = 0; i <  info.data[0].orderList.length ; i++ ){
+                        orders =  orders.concat(info.data[0].orderList[i].quantity + ' ' +info.data[0].orderList[i].product.name+ ', ')
+                    }
+
+                    that.emit(':tell', 'The current order is '+ orders);
+                }else{
+                    that.emit(':tell', 'There are no pending orders for the kitchen. well done. You are so fast.');
+                }
+
+            }
+        }
+
+        request(options, callback);
+
+
+
+
+
     },
-    'GiffGaffBundlesIntent': function () {
-        this.emit(':tell', "Our plans are. 8 pound goodybag gives you 6 gigabytes data, 2000 minutes, unlimited texts. 20 pound goodybag gives you always on data, unlimited minutes, unlimited texts. 5 pound goodybag gives you 100 me \
-        gabytes data, 125 minutes, 500 texts. 7 pound 50 goodybag gives you 500 megabytes data, 250 minutes, unlimited texts. 10 pound goodybag gives you 1 gigabyte data, 500 minutes, unlimited text  \
-        s. 10 pound goodybag gives you 2 gigabytes data, 100 minutes, unlimited texts. 12 pound goodybag gives you 2 gigabytes data, 500 minutes, unlimited texts. 15 pound goodybag gives you 4 gigab \
-        ytes data, 1000 minutes, unlimited texts. 18 pound goodybag gives you 4 gigabytes data, 1000 minutes, unlimited texts."  );
-    },
+
     'AMAZON.HelpIntent': function () {
         this.emit(':ask', '<p>Here are some things you can say:</p><p>Make me a giff gaffer</p><p>Order giff gaff sim card?</p><p>What bundles are available?</p><p>So how can I help?</p>', REPROMPT);
     },

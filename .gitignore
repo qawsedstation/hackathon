@@ -1,0 +1,16 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Build
+build/
+demo/
+src/
+
+# IDE's
+.idea/
+nbproject
+.project
+.redcar
+*.sublime-*
+*.iml

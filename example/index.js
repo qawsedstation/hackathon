@@ -6,7 +6,7 @@ const
     REPROMPT = 'For assistance just say \'Help Me\'.',
     SKILL = 'gif gaff from DAG team'; // for pronunciation
 
-exports.handler = function(event, context){
+exports.handler = function (event, context) {
     var alexa = alexaSDK.handler(event, context);
     alexa.registerHandlers(handlers);
     alexa.execute();
@@ -27,27 +27,25 @@ var handlers = {
             url: 'http://gopospro.com:3030/orders/pending',
             headers: {
                 'auth_email': 'qawsedstation@gmail.com',
-                'auth_password' : 'qawsed'
+                'auth_password': 'qawsed'
             },
 
         };
 
         function callback(error, response, body) {
 
-
             if (!error && response.statusCode == 200) {
-                var info = JSON.parse(body);
-                var orderNumber = info.data.length;
+                var orders = JSON.parse(body).data;
+                var ordersCount = info.data.length;
 
-                if(orderNumber) {
-                    var orders = '';
-
-                    for(var i = 0; i <  info.data[0].orderList.length ; i++ ){
-                        orders =  orders.concat(info.data[0].orderList[i].quantity + ' ' +info.data[0].orderList[i].product.name+ ', ')
-                    }
-
-                    that.emit(':tell', 'The current order is '+ orders);
-                }else{
+                if (ordersCount > 0) {
+                   var ordersAsString = '';
+                   for(var i = 0; i < orders.length; i++){
+                      var order = orders[0];
+                      ordersAsString.concat(getOrderAsString(order) + '. ');
+                   }
+                   that.emit(':tell', 'The current order is ' + ordersAsString);
+                } else {
                     that.emit(':tell', 'There are no pending orders for the kitchen. well done. You are so fast.');
                 }
 
@@ -56,6 +54,14 @@ var handlers = {
 
         request(options, callback);
 
+        function getOrderAsString() {
+            var result = '';
+            for (var i = 0; i < order.orderList.length; i++) {
+                result = result.concat(order.orderList[i].quantity + ' ' + order.orderList[i].product.name + ', ')
+            }
+
+            return result;
+        }
 
 
 
@@ -72,4 +78,5 @@ var handlers = {
         this.emit(':ask', 'Yikes! Something went wrong.');
     }
 };
+
 

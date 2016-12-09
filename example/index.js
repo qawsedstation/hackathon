@@ -1,10 +1,10 @@
 'use strict';
-var alexaSDK = require('alexa-sdk'),
-    giffgaff = require('./giffgaff.js');
+var alexaSDK = require('alexa-sdk');
+
 
 const
     REPROMPT = 'For assistance just say \'Help Me\'.',
-    SKILL = 'gif gaff'; // for pronunciation
+    SKILL = 'gif gaff from DAG team'; // for pronunciation
 
 exports.handler = function(event, context){
     var alexa = alexaSDK.handler(event, context);
@@ -16,19 +16,14 @@ var handlers = {
     'LaunchRequest': function () {
         this.emit(':ask', 'Welcome to ' + SKILL + '. How can I help?', REPROMPT);
     },
-    'BalanceIntent': function () {
-        if (this.event.session.user.accessToken) {
-            var alexa = this;
-            giffgaff(alexa.event.session.user.accessToken, '/profile')
-                .done(function (data) {
-                    alexa.emit(':tell', '<p>Your balance is £' + data.balance / 100 + '.</p>', REPROMPT);
-                });
-        } else {
-            this.emit(':tellWithLinkAccountCard', 'You\'ll need to log in to ' + SKILL + ' using the Alexa app before I can give you this information.');
-        }
+    'GiffGafferIntent': function () {
+        this.emit(':ask', 'tell me your name');
+    },
+    'GiffGaffBundlesIntent': function () {
+        this.emit(':tell', 'Our bundles are');
     },
     'AMAZON.HelpIntent': function () {
-        this.emit(':ask', '<p>Here are some things you can say:</p><p>What\'s my current balance?</p><p>So how can I help?</p>', REPROMPT);
+        this.emit(':ask', '<p>Here are some things you can say:</p><p>Make me a giff gaffer</p><p>Make me a giff gaffer</p><p>Order giff gaff sim card?</p>What bundles are available?<p>So how can I help?</p>', REPROMPT);
     },
     'AMAZON.StopIntent': function () {
         this.emit(':tell', 'Goodbye.');

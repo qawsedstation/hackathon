@@ -38,14 +38,18 @@ var handlers = {
             if (!error && response.statusCode == 200) {
                 var orders = JSON.parse(body).data;
                 var ordersCount = orders.length;
-
+                var message = '';
                 if (ordersCount > 0) {
                    var ordersAsString = '';
+                    if(ordersCount > 2){
+                        message = 'please hurry there are many hungry customers';
+                    }
                    for(var i = 0; i < orders.length; i++){
                       var order = orders[i];
                        ordersAsString = ordersAsString.concat(converter.toOrdinal(i + 1) +' order is. ' + getOrderAsString(order));
                    }
-                   that.emit(':tell',  ordersAsString);
+
+                   that.emit(':tell',  ordersAsString+' '+message);
                 } else {
                     that.emit(':tell', 'There are no pending orders for the kitchen. well done. You are so fast.');
                 }

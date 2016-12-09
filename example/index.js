@@ -15,7 +15,7 @@ exports.handler = function (event, context) {
 
 var handlers = {
     'LaunchRequest': function () {
-        this.emit(':ask', 'Welcome to ' + SKILL + '. How can I help?', REPROMPT);
+        this.emit(':ask', 'Welcome to the giff gaff kitchen. How can I help?', REPROMPT);
     },
     'CurrentOrderIntent': function () {
 
@@ -69,7 +69,7 @@ var handlers = {
     },
 
     'AMAZON.HelpIntent': function () {
-        this.emit(':ask', '<p>Here are some things you can say:</p><p>Make me a giff gaffer</p><p>Order giff gaff sim card?</p><p>What bundles are available?</p><p>So how can I help?</p>', REPROMPT);
+        this.emit(':ask', '<p>Here are some things you can say:</p><p>Get current order</p><p>So how can I help?</p>', REPROMPT);
     },
     'AMAZON.StopIntent': function () {
         this.emit(':tell', 'Goodbye.');

@@ -1,5 +1,5 @@
 var format = require('string-format');
-var bundles = require('../json/bundles.json').bundles;
+var bundles = require('./bundles.json').bundles;
 
 module.exports = function () {
     var result = '';

@@ -1,6 +1,7 @@
 'use strict';
 var alexaSDK = require('alexa-sdk');
 var request = require('request');
+var converter = require('number-to-words');
 
 const
     REPROMPT = 'For assistance just say \'Help Me\'.',
@@ -36,15 +37,15 @@ var handlers = {
 
             if (!error && response.statusCode == 200) {
                 var orders = JSON.parse(body).data;
-                var ordersCount = info.data.length;
+                var ordersCount = orders.length;
 
                 if (ordersCount > 0) {
                    var ordersAsString = '';
                    for(var i = 0; i < orders.length; i++){
-                      var order = orders[0];
-                      ordersAsString.concat(getOrderAsString(order) + '. ');
+                      var order = orders[i];
+                       ordersAsString = ordersAsString.concat(converter.toOrdinal(i + 1) +' order is. ' + getOrderAsString(order));
                    }
-                   that.emit(':tell', 'The current order is ' + ordersAsString);
+                   that.emit(':tell',  ordersAsString);
                 } else {
                     that.emit(':tell', 'There are no pending orders for the kitchen. well done. You are so fast.');
                 }
@@ -54,7 +55,7 @@ var handlers = {
 
         request(options, callback);
 
-        function getOrderAsString() {
+        function getOrderAsString(order) {
             var result = '';
             for (var i = 0; i < order.orderList.length; i++) {
                 result = result.concat(order.orderList[i].quantity + ' ' + order.orderList[i].product.name + ', ')

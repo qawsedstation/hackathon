@@ -23,7 +23,7 @@ var handlers = {
         this.emit(':tell', 'Our bundles are');
     },
     'AMAZON.HelpIntent': function () {
-        this.emit(':ask', '<p>Here are some things you can say:</p><p>Make me a giff gaffer</p><p>Make me a giff gaffer</p><p>Order giff gaff sim card?</p>What bundles are available?<p>So how can I help?</p>', REPROMPT);
+        this.emit(':ask', '<p>Here are some things you can say:</p><p>Make me a giff gaffer</p><p>Make me a giff gaffer</p><p>Order giff gaff sim card?</p><p>What bundles are available?</p><p>So how can I help?</p>', REPROMPT);
     },
     'AMAZON.StopIntent': function () {
         this.emit(':tell', 'Goodbye.');

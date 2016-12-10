@@ -25,7 +25,7 @@ var handlers = {
 
         var options = {
             method: 'POST',
-            url: 'http://gopospro.com:3030/orders/pending',
+            url: 'http://212.47.243.101:3030/orders/pending',
             headers: {
                 'auth_email': 'qawsedstation@gmail.com',
                 'auth_password': 'qawsed'

@@ -4,8 +4,8 @@ var request = require('request');
 var converter = require('number-to-words');
 
 const
-    REPROMPT = 'For assistance just say \'Help Me\'.',
-    SKILL = 'gif gaff from DAG team'; // for pronunciation
+    REPROMPT = 'For assistance just say \'Help Me\'.';
+
 
 exports.handler = function (event, context) {
     var alexa = alexaSDK.handler(event, context);
@@ -16,7 +16,7 @@ exports.handler = function (event, context) {
 
 var handlers = {
     'LaunchRequest': function () {
-        this.emit(':ask', 'Welcome to the giff gaff kitchen. How can I help?', REPROMPT);
+        this.emit(':ask', 'Welcome to the kitchen. How can I help?', REPROMPT);
     },
     'CurrentOrderIntent': function () {
 
@@ -27,8 +27,8 @@ var handlers = {
             method: 'POST',
             url: 'http://212.47.243.101:3030/orders/pending',
             headers: {
-                'auth_email': 'qawsedstation@gmail.com',
-                'auth_password': 'qawsed'
+                'auth_email': 'email@gmail.com',
+                'auth_password': 'password'
             },
 
         };
@@ -40,16 +40,16 @@ var handlers = {
                 var ordersCount = orders.length;
                 var message = '';
                 if (ordersCount > 0) {
-                   var ordersAsString = '';
-                    if(ordersCount > 2){
+                    var ordersAsString = '';
+                    if (ordersCount > 2) {
                         message = 'please hurry there are many hungry customers';
                     }
-                   for(var i = 0; i < orders.length; i++){
-                      var order = orders[i];
-                       ordersAsString = ordersAsString.concat(converter.toOrdinal(i + 1) +' order is. ' + getOrderAsString(order));
-                   }
+                    for (var i = 0; i < orders.length; i++) {
+                        var order = orders[i];
+                        ordersAsString = ordersAsString.concat(converter.toOrdinal(i + 1) + ' order is. ' + getOrderAsString(order));
+                    }
 
-                   that.emit(':tell',  ordersAsString+' '+message);
+                    that.emit(':tell', ordersAsString + ' ' + message);
                 } else {
                     that.emit(':tell', 'There are no pending orders for the kitchen. well done. You are so fast.');
                 }
@@ -67,9 +67,6 @@ var handlers = {
 
             return result;
         }
-
-
-
 
     },
 

@@ -1,12 +1,17 @@
-# giffgaff-alexa-skill
+# kitchen-alexa-skill
 
-## Sample Code for giffgaff Hackathon
+## Sample Code for kitchen Hackathon
 
-See `/example` folder for a giffgaff Public API enabled AWS Lambda - just compress and upload index.js, gifgaff.js &
+See `/example` folder for a kitchen Public API enabled AWS Lambda - just compress and upload index.js, gifgaff.js &
 node_modules then configure your skill with `intents.json` & `utterances.txt` generated with `node assets`.
 
-Note that Alexa Account Linking can be enabled on your skill via `https://www.allmark.cloud/authenticate` &
-`https://www.allmark.cloud/authorize` - Note: token refresh isn't implemented.
+A skill to allow chefs audibly hear orders placed via a front of house pos system (app).
+
+## What is doing
+Receive an order from the app. Award the chef when he is quick and adds some pressure on him when there are too many orders in place 
+
+## You can say
+Ask kitchen for orders
 
 ## Useful links:
 
